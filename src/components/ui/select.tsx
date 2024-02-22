@@ -25,7 +25,7 @@ const selectWrapper = tv({
 interface SelectWrapper
   extends React.ComponentProps<"div">,
     VariantProps<typeof selectWrapper> {
-  classNameIcon?: string;
+  classnameicon?: string;
   disabled?: boolean;
   classNameSelect?: string;
   icon?: React.ReactNode;
@@ -47,7 +47,7 @@ export function Select({ className, variant, ...props }: SelectWrapper) {
       <div
         className={twMerge(
           "absolute left-2 top-1/2 -translate-y-1/2",
-          props.classNameIcon
+          props.classnameicon
         )}
       >
         {props.icon}

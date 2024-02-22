@@ -24,9 +24,9 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="user  flex max-sm:hidden justify-center items-center gap-2">
+      <div className="user  flex  justify-center items-center gap-2">
         <div className="top flex text-slate-200 items-center gap-2">
-          <div className="flex flex-col gap-1">
+          <div className="flex max-md:hidden flex-col gap-1">
             <div className="flex gap-2">
               <span className="text-sm font-semibold">Vinicios Ragazzi</span>
               <Badge variant="primary" className="text-xs">

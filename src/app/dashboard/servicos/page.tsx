@@ -1,8 +1,8 @@
+// Importação de módulos e componentes necessários
 "use client";
 import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
 import { Input, InputController } from "@/components/ui/input";
-
 import { CgExport } from "react-icons/cg";
 import { FaSearch } from "react-icons/fa";
 import { FaFilter, FaPlus } from "react-icons/fa6";
@@ -10,15 +10,15 @@ import TableService from "./Table";
 import Pagination from "@/components/ui/pagination";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { VscLoading } from "react-icons/vsc";
-import {
-  useParams,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 import NewServiceButton from "./components/newServiceButton";
+import { getServices, revalidateTagFunc } from "@/utils/lib";
+import { useNavigateWithQuery } from "@/utils/navigationUtils";
+import { removeQueryParam } from "@/utils/queryStringUtils";
+// Componente Servicos
 const Servicos = () => {
+  // Hooks para gerenciar o estado e a navegação
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const page = searchParams.get("page");
@@ -26,32 +26,18 @@ const Servicos = () => {
   const [perPage, setPerPage] = useState(10);
   const [inputText, setInputText] = useState("");
   const [filter, setFilter] = useState<string | null>();
-
+  // Utilização de useQuery para buscar dados do servidor
   const { isLoading, data: services } = useQuery({
     queryKey: ["get-services", page, perPage, filter],
-    queryFn: () =>
-      fetch(
-        `http://localhost:3333/services?_page=${page || 1}&_per_page=${
-          perPage || 10
-        }${
-          urlFilter && urlFilter?.length > 2
-            ? `&id=${urlFilter}`
-            : filter && filter?.length > 2
-            ? `&id=${filter}`
-            : ""
-        }`,
-        {
-          next: {
-            revalidate: 5,
-          },
-        }
-      ).then((res) => res.json()),
+    queryFn: () => getServices(Number(page), perPage, urlFilter, filter),
     placeholderData: keepPreviousData,
   });
 
+  // Extração de itens e páginas dos serviços
   const items = services?.items || 0;
   const pages = services?.pages || 0;
 
+  // Função para criar uma string de consulta
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString());
@@ -61,22 +47,32 @@ const Servicos = () => {
     },
     [searchParams]
   );
+
+  // Utilização do hook useRouter para navegação
   const route = useRouter();
+
+  // Função para alterar o filtro de entrada
+  const navigateWithQuery = useNavigateWithQuery();
+
+  // Função para lidar com a mudança do filtro de busca
   const changeInputFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const value = e.target.value;
+    setInputText(value);
+    if (value) {
+      const queryParams = createQueryString("filter", value);
+      navigateWithQuery(queryParams);
 
-    if (e.target.value.length > 0) {
-      setInputText(e.target.value);
-      route.replace("?" + createQueryString("filter", e.target.value));
+      if (value.length < 2) {
+        setFilter("");
+        console.log("true");
+      }
     } else {
-      setFilter(e.target.value);
-      setInputText(e.target.value);
-      params.delete("filter");
-      route.replace(pathname + "?" + params.toString());
-
-      console.log(params.toString(), urlFilter, filter, e.target.value);
+      const queryParams = removeQueryParam(searchParams, "filter");
+      navigateWithQuery(queryParams);
     }
   };
+
+  // Renderização do componente
   return (
     <main>
       <Header />
@@ -90,11 +86,11 @@ const Servicos = () => {
             <Input
               variant="normal"
               icon={<FaSearch />}
-              classNameIcon="text-teal-300"
-              name="search"
-              onChange={(e) => changeInputFilter(e)}
-              value={urlFilter || filter || ""}
+              onChange={changeInputFilter}
+              value={inputText}
               placeholder="Pesquisar"
+              className="flex-1"
+              classnameicon="text-teal-300"
             />
 
             <Button
@@ -134,4 +130,5 @@ const Servicos = () => {
   );
 };
 
+// Exportação do componente
 export default Servicos;

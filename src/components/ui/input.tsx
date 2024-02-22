@@ -28,7 +28,7 @@ interface InputWrapper
   disabled?: boolean;
   value?: string;
   icon?: React.ReactNode;
-  classNameIcon?: string;
+  classnameicon?: string;
   classNameInput?: string;
   placeholder?: string;
   name?: string;
@@ -48,7 +48,7 @@ export function Input({ className, variant, ...props }: InputWrapper) {
       <div
         className={twMerge(
           "absolute left-2 top-1/2 -translate-y-1/2",
-          props.classNameIcon
+          props.classnameicon
         )}
       >
         {props.icon}

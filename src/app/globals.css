@@ -5,3 +5,7 @@
 * {
   @apply antialiased;
 }
+
+html {
+  scroll-behavior: smooth;
+}

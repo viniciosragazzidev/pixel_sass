@@ -30,7 +30,7 @@ const FormNewService = () => {
           <Input
             variant="normal"
             icon={<FaPen />}
-            classNameIcon="text-teal-300"
+            classnameicon="text-teal-300"
             name="document"
             placeholder="000.000.000-00"
           />
@@ -44,7 +44,7 @@ const FormNewService = () => {
             disabled
             variant="normal"
             icon={<FaUserLarge />}
-            classNameIcon="text-teal-300"
+            classnameicon="text-teal-300"
             name="client"
             placeholder="Jose da Silva"
           />
@@ -60,7 +60,7 @@ const FormNewService = () => {
             disabled
             variant="normal"
             icon={<FaPhone />}
-            classNameIcon="text-teal-300"
+            classnameicon="text-teal-300"
             name="contact"
             placeholder="000.000.000-00"
           />
@@ -73,7 +73,7 @@ const FormNewService = () => {
           <Select
             variant="normal"
             icon={<FaGenderless />}
-            classNameIcon="text-teal-300"
+            classnameicon="text-teal-300"
             disabled
             name="gender"
             items={[
@@ -96,7 +96,7 @@ const FormNewService = () => {
             disabled
             variant="normal"
             icon={<FaHome />}
-            classNameIcon="text-teal-300"
+            classnameicon="text-teal-300"
             name="andress"
             placeholder="Rua das flores, 123 "
           />
@@ -112,7 +112,7 @@ const FormNewService = () => {
             icon={<FaCalendarMinus />}
             name="cep"
             placeholder="00000-000"
-            classNameIcon="text-teal-300"
+            classnameicon="text-teal-300"
           />
         </div>
       </div>
