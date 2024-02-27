@@ -1,3 +1,4 @@
+import { getTecnics } from "@/utils/lib";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 import { VariantProps, tv } from "tailwind-variants";
@@ -32,9 +33,16 @@ interface SelectWrapper
   items?: { value: string; label: string }[];
   name?: string;
   onChange?: (event: any) => void;
+  onClick?: (event: any) => void;
+  value?: string;
+  functionGetter?: (value: string) => void;
+  placeholder?: string;
 }
 
 export function Select({ className, variant, ...props }: SelectWrapper) {
+  // const fc = props.functionGetter ? props.functionGetter : () => {};
+  const items = props.items;
+
   return (
     <div
       {...props}
@@ -55,18 +63,25 @@ export function Select({ className, variant, ...props }: SelectWrapper) {
       <select
         id={props.name}
         disabled={props.disabled}
+        onClick={props.onClick}
+        onChange={props.onChange}
         className={twMerge(
-          "w-full h-full pl-6 bg-transparent text-sm text-slate-200 focus:outline-none",
+          "w-full h-full pl-6 bg-transparent    text-sm text-slate-200 focus:outline-none",
           props.classNameSelect
         )}
       >
-        {props.items?.map((item) => (
+        <option className="bg-slate-900 w-max cursor-pointer" value="">
+          {props.placeholder}
+        </option>
+        {items?.map((item: any) => (
           <option
+            onChange={props.onChange}
             className="bg-slate-900 w-max cursor-pointer"
+            selected={item.label === props.value}
             key={item.value}
-            value={item.value}
+            value={item.value || item.name}
           >
-            {item.label}
+            {item.name || item.label}
           </option>
         ))}
       </select>

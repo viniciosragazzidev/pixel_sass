@@ -1,9 +1,10 @@
 import { ComponentProps } from "react";
+import { UseFormRegister, UseFormRegisterReturn } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { VariantProps, tv } from "tailwind-variants";
 
 const inputWrapper = tv({
-  base: `w-full min-h-8 flex  items-center  relative max-w-[280px] rounded-lg border border-slate-800 bg-slate-900 px-3 group disabled:bg-red-700`,
+  base: `w-full min-h-8 flex   items-center  relative max-w-[280px] rounded-lg border border-slate-800 bg-slate-900 px-3 group disabled:bg-red-700`,
   variants: {
     variant: {
       normal: " border-slate-800 bg-slate-900",
@@ -27,10 +28,12 @@ interface InputWrapper
     VariantProps<typeof inputWrapper> {
   disabled?: boolean;
   value?: string;
+  setValue?: (value: string) => void;
   icon?: React.ReactNode;
   classnameicon?: string;
   classNameInput?: string;
   placeholder?: string;
+  type?: string;
   name?: string;
   onChange?: (event: any) => void;
 }
@@ -44,27 +47,7 @@ export function Input({ className, variant, ...props }: InputWrapper) {
         `${props.disabled && "opacity-40"}`,
         className
       )}
-    >
-      <div
-        className={twMerge(
-          "absolute left-2 top-1/2 -translate-y-1/2",
-          props.classnameicon
-        )}
-      >
-        {props.icon}
-      </div>
-      <input
-        placeholder={props.placeholder}
-        id={props.name}
-        disabled={props.disabled}
-        onChange={props.onChange}
-        value={props.value}
-        className={twMerge(
-          "  w-full h-full pl-6  bg-transparent text-sm text-slate-200 focus:outline-none group-disabled:bg-red-700",
-          props.classNameInput
-        )}
-      />
-    </div>
+    />
   );
 }
 
@@ -76,6 +59,20 @@ export function InputController({ className, ...props }: InputController) {
       {...props}
       className={twMerge(
         "  w-full h-full pl-6  bg-transparent text-sm text-slate-200 focus:outline-none group-disabled:bg-red-700",
+        className
+      )}
+    />
+  );
+}
+
+interface InputIcon extends ComponentProps<"div"> {}
+
+export function InputIcon({ className, ...props }: InputIcon) {
+  return (
+    <div
+      {...props}
+      className={twMerge(
+        "absolute left-2 top-1/2 -translate-y-1/2 text-teal-300",
         className
       )}
     />

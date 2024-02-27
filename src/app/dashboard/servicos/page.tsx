@@ -10,25 +10,26 @@ import TableService from "./Table";
 import Pagination from "@/components/ui/pagination";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { VscLoading } from "react-icons/vsc";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import NewServiceButton from "./components/newServiceButton";
-import { getServices, revalidateTagFunc } from "@/utils/lib";
+import { getServices } from "@/utils/lib";
 import { useNavigateWithQuery } from "@/utils/navigationUtils";
 import { removeQueryParam } from "@/utils/queryStringUtils";
 // Componente Servicos
 const Servicos = () => {
   // Hooks para gerenciar o estado e a navegação
   const searchParams = useSearchParams();
-  const pathname = usePathname();
   const page = searchParams.get("page");
   let urlFilter = searchParams.get("filter");
   const [perPage, setPerPage] = useState(10);
   const [inputText, setInputText] = useState("");
   const [filter, setFilter] = useState<string | null>();
+  const [serviceN, setServiceN] = useState({} as any);
+
   // Utilização de useQuery para buscar dados do servidor
   const { isLoading, data: services } = useQuery({
-    queryKey: ["get-services", page, perPage, filter],
+    queryKey: ["get-services", page, perPage, filter, serviceN],
     queryFn: () => getServices(Number(page), perPage, urlFilter, filter),
     placeholderData: keepPreviousData,
   });
@@ -45,11 +46,11 @@ const Servicos = () => {
 
       return params.toString();
     },
+
     [searchParams]
   );
 
   // Utilização do hook useRouter para navegação
-  const route = useRouter();
 
   // Função para alterar o filtro de entrada
   const navigateWithQuery = useNavigateWithQuery();
@@ -64,35 +65,38 @@ const Servicos = () => {
 
       if (value.length < 2) {
         setFilter("");
-        console.log("true");
       }
     } else {
       const queryParams = removeQueryParam(searchParams, "filter");
       navigateWithQuery(queryParams);
     }
   };
-
-  // Renderização do componente
+  useEffect(() => {
+    console.log(serviceN);
+  }, [serviceN]);
   return (
     <main>
       <Header />
       <section className="w-full container mx-auto px-4 py-4 flex flex-col justify-between   pb-6">
         <div className="flex gap-4 max-sm:justify-between py-4">
           <h1 className="text-xl font-semibold text-slate-200">Serviços</h1>{" "}
-          <NewServiceButton />
+          <NewServiceButton serviceN={serviceN} setServiceN={setServiceN} />
         </div>
         <div className="flex gap-2 max-sm:gap-4 flex-wrap justify-between max-sm:justify-start">
           <div className="flex gap-2">
-            <Input
-              variant="normal"
-              icon={<FaSearch />}
-              onChange={changeInputFilter}
-              value={inputText}
-              placeholder="Pesquisar"
-              className="flex-1"
-              classnameicon="text-teal-300"
-            />
-
+            <div className="inputWrapper">
+              <span className="inputIcon text-teal-400">
+                <FaFilter />
+              </span>
+              <input
+                className="inputC "
+                type="search"
+                name="filter"
+                value={inputText}
+                onChange={changeInputFilter}
+                placeholder="Pesquisar"
+              />
+            </div>
             <Button
               onClick={() => setFilter(inputText)}
               className="flex gap-1"

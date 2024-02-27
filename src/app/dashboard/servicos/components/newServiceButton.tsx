@@ -2,14 +2,21 @@
 
 import { Button } from "@/components/ui/button";
 import * as Dialog from "@radix-ui/react-dialog";
-
 import React from "react";
 import { FaPlus } from "react-icons/fa6";
 import FormNewService from "./form-new-service";
+import { RefetchOptions } from "@tanstack/react-query";
 
-const NewServiceButton = () => {
+const NewServiceButton = ({
+  serviceN,
+  setServiceN,
+}: {
+  serviceN: any;
+  setServiceN: any;
+}) => {
+  const [dialogOpen, setDialogOpen] = React.useState<boolean | undefined>();
   return (
-    <Dialog.Root>
+    <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
       <Dialog.Trigger>
         <Button
           variant="primary"
@@ -19,18 +26,26 @@ const NewServiceButton = () => {
         </Button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="bg-slate-950/50 inset-0 fixed backdrop-blur-sm" />
-        <Dialog.Content className="fixed  top-0 right-0 h-screen space-y-2 w-max min-w-[500px]  bg-slate-900 p-6 rounded-lg shadow-lg">
-          <Dialog.Title className="text-slate-200 font-bold text-2xl">
-            {" "}
-            Novo Serviço{" "}
-          </Dialog.Title>
-          <Dialog.Description className="text-slate-500 text-sm">
-            Adicione as informações nescessárias abaixo{" "}
-          </Dialog.Description>
-          <FormNewService />
-          <Dialog.Close />
-        </Dialog.Content>
+        <Dialog.Overlay className="bg-slate-950/80 inset-0 fixed backdrop-blur-sm" />
+        <div className="fixed  h-screen   top-0 right-0 ">
+          <Dialog.Content className=" relative h-screen overflow-y-auto space-y-2 w-full max-w-xl bg-slate-950  rounded-lg shadow-lg">
+            <div className="flex fixed bg-slate-950 z-50 w-full p-4 flex-col gap-2">
+              <Dialog.Title className="text-slate-200 font-bold text-2xl">
+                {" "}
+                Novo Serviço{" "}
+              </Dialog.Title>
+              <Dialog.Description className="text-slate-500 text-sm">
+                Adicione as informações nescessárias abaixo{" "}
+              </Dialog.Description>
+            </div>
+            <FormNewService
+              open={dialogOpen}
+              setOpen={setDialogOpen}
+              setServiceN={setServiceN}
+              serviceN={serviceN}
+            />
+          </Dialog.Content>
+        </div>
       </Dialog.Portal>
     </Dialog.Root>
   );

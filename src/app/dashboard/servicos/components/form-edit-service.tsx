@@ -47,8 +47,6 @@ const FormNewService = ({ serviceN, setServiceN, open, setOpen }: any) => {
   const queryClient = new QueryClient();
   // Estado local para controlar o gênero
   const [newUser, setNewUser] = React.useState(false);
-  // Estado local para controlar a habilitação/desabilitação dos inputs do usuário
-  const [disabledUserInputs, setDisabledUserInputs] = useState(true);
   // Estado local para controlar a exibição do formulário para adicionar novo item
   const [modeAddNewItem, setModeAddNewItem] = useState(false);
   //Estado para guardar os dados da OS atual
@@ -97,10 +95,8 @@ const FormNewService = ({ serviceN, setServiceN, open, setOpen }: any) => {
         setNewUser(false);
       } else {
         setNewUser(true);
-        setDisabledUserInputs(false);
       }
     } else {
-      setDisabledUserInputs(true);
       resetInputs();
     }
   };
@@ -204,16 +200,13 @@ const FormNewService = ({ serviceN, setServiceN, open, setOpen }: any) => {
               Cliente
             </label>
 
-            <div
-              className={`inputWrapper ${disabledUserInputs && "opacity-50"}`}
-            >
+            <div className={`inputWrapper }`}>
               <span className="text-teal-300">
                 <FaUserLarge />
               </span>
               <input
                 type=""
                 className="inputC w-full max-w-none "
-                disabled={disabledUserInputs}
                 {...register("name")}
                 placeholder="Jose da Silva"
               />
@@ -230,15 +223,12 @@ const FormNewService = ({ serviceN, setServiceN, open, setOpen }: any) => {
             <label htmlFor="contact" className="text-slate-300 text-sm ">
               Contato{" "}
             </label>
-            <div
-              className={`inputWrapper ${disabledUserInputs && "opacity-50"}`}
-            >
+            <div className={`inputWrapper }`}>
               <span className="text-teal-300">
                 <FaPhone />
               </span>
               <input
                 type=""
-                disabled={disabledUserInputs}
                 className="inputC"
                 {...register("contact")}
                 placeholder="(00)00000-0000"
@@ -255,18 +245,13 @@ const FormNewService = ({ serviceN, setServiceN, open, setOpen }: any) => {
               Gênero
             </label>
 
-            <div
-              className={`selectWrapper  ${
-                disabledUserInputs && "opacity-50 cursor-not-allowed"
-              }`}
-            >
+            <div className={`selectWrapper  `}>
               <span className="text-teal-300">
                 <FaGenderless />
               </span>
               <select
                 className={`selectC `}
                 defaultValue={"Masculino"}
-                disabled={disabledUserInputs}
                 {...register("gender", { required: true })}
               >
                 {genders.map((gender) => (
@@ -290,15 +275,12 @@ const FormNewService = ({ serviceN, setServiceN, open, setOpen }: any) => {
               Endereço{" "}
             </label>
 
-            <div
-              className={`inputWrapper ${disabledUserInputs && "opacity-50"}`}
-            >
+            <div className={`inputWrapper }`}>
               <span className="text-teal-300">
                 <FaHome />
               </span>
               <input
                 type=""
-                disabled={disabledUserInputs}
                 className="inputC"
                 {...register("address")}
                 placeholder="Rua das flores, 123 "
@@ -315,15 +297,12 @@ const FormNewService = ({ serviceN, setServiceN, open, setOpen }: any) => {
               CEP
             </label>
 
-            <div
-              className={`inputWrapper ${disabledUserInputs && "opacity-50"}`}
-            >
+            <div className={`inputWrapper }`}>
               <span className="text-teal-300">
                 <FaCalendarMinus />
               </span>
               <input
                 type=""
-                disabled={disabledUserInputs}
                 {...register("cep")}
                 placeholder="00000-000"
                 className="inputC"

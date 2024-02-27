@@ -9,6 +9,7 @@ const button = tv({
     variant: {
       ghost: "bg-slate-800 text-slate-500",
       primary: "bg-teal-950 text-teal-300",
+      cancel: "bg-red-800 text-red-400",
     },
     size: {
       icon: "px-2.5 py-1.5",
@@ -23,8 +24,18 @@ interface BadgeProps
   extends ComponentProps<"span">,
     VariantProps<typeof button> {}
 
-export function Button({ className, variant, ...props }: BadgeProps) {
+export function Button({ className, variant, ...props }: any) {
   return (
-    <span className={twMerge(button({ variant }), className)} {...props} />
+    <>
+      {props.type === "submit" ? (
+        <button
+          type="submit"
+          className={twMerge(button({ variant }), className)}
+          {...props}
+        />
+      ) : (
+        <span className={twMerge(button({ variant }), className)} {...props} />
+      )}
+    </>
   );
 }

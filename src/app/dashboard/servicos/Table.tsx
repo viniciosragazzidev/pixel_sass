@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ServiceType } from "@/utils/types";
 import { IoIosMore, IoMdMore } from "react-icons/io";
 interface Equipment {
   id: number;
@@ -16,22 +17,7 @@ interface Equipment {
   modelo: string;
 }
 
-export interface ServiceOrder {
-  id: number;
-  client: string;
-  contato: string;
-  equipamentos: Equipment[];
-  status: [
-    "Pendente",
-    "Em processo",
-    "Aguardando",
-    "Concluído",
-    "Entregue",
-    "Cancelado"
-  ];
-  data_de_entrada: string;
-}
-const TableService = ({ services }: { services: ServiceOrder[] }) => {
+const TableService = ({ services }: { services: ServiceType[] }) => {
   console.log(services);
 
   return (
@@ -55,10 +41,10 @@ const TableService = ({ services }: { services: ServiceOrder[] }) => {
                   <TableCell>
                     <div className="flex flex-col gap-2">
                       <span className="whitespace-nowrap text-slate-200 font-bold">
-                        {service.client}
+                        {service.client.name}
                       </span>
                       <span className="whitespace-nowrap text-slate-400 text-xs">
-                        {service.contato}
+                        {service.client.contact}
                       </span>
                     </div>
                   </TableCell>
@@ -67,22 +53,22 @@ const TableService = ({ services }: { services: ServiceOrder[] }) => {
                       <div className="flex gap-1">
                         <span className="whitespace-nowrap text-slate-200 font-bold">
                           {" "}
-                          {service.equipamentos[0].equipamento}{" "}
+                          {service.items[0].item}{" "}
                         </span>
                         <span className="whitespace-nowrap  font-bold text-teal-600">
                           {" "}
-                          {service.equipamentos[0].marca}{" "}
+                          {service.items[0].brand}{" "}
                         </span>
                       </div>
 
                       <div className="flex gap-4 items-center ">
                         <span className="whitespace-nowrap text-slate-400 text-xs">
                           {" "}
-                          {service.equipamentos[0].modelo}
+                          {service.items[0].model}{" "}
                         </span>
-                        {service.equipamentos.length > 1 ? (
+                        {service.items.length > 1 ? (
                           <Badge className="whitespace-nowrap" variant="ghost">
-                            + {service.equipamentos.length - 1}
+                            + {service.items.length - 1}
                           </Badge>
                         ) : null}
                       </div>
@@ -91,11 +77,11 @@ const TableService = ({ services }: { services: ServiceOrder[] }) => {
                   <TableCell>
                     <div className="flex flex-col gap-2">
                       <Badge variant="primary" className="block  self-start">
-                        {service.status}
+                        {service.items[0].status}
                       </Badge>
                       <span className="whitespace-nowrap text-slate-400 text-xs">
                         {" "}
-                        {service.data_de_entrada}
+                        {service.created_at}
                       </span>
                     </div>
                   </TableCell>
