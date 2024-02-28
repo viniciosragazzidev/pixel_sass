@@ -4,17 +4,25 @@ import { Button } from "@/components/ui/button";
 import * as Dialog from "@radix-ui/react-dialog";
 import React from "react";
 import { FaPlus } from "react-icons/fa6";
-import FormNewService from "./form-new-service";
-import { RefetchOptions } from "@tanstack/react-query";
+import CreateServiceForm from "./CreateServiceForm";
+import { IoIosMore } from "react-icons/io";
+import EditServiceForm from "./EditServiceForm";
 
-const NewServiceButton = ({
+const ServiceTriggerButton = ({
   serviceN,
   setServiceN,
+  service,
+  openAlert,
+  setOpenAlert,
 }: {
   serviceN: any;
   setServiceN: any;
+  service?: any;
+  openAlert: boolean;
+  setOpenAlert: any;
 }) => {
   const [dialogOpen, setDialogOpen] = React.useState<boolean | undefined>();
+
   return (
     <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
       <Dialog.Trigger>
@@ -22,7 +30,7 @@ const NewServiceButton = ({
           variant="primary"
           className="flex items-center text-[13px] gap-1 min-h-8"
         >
-          <FaPlus />
+          {service ? <IoIosMore /> : <FaPlus />}
         </Button>
       </Dialog.Trigger>
       <Dialog.Portal>
@@ -32,18 +40,30 @@ const NewServiceButton = ({
             <div className="flex fixed bg-slate-950 z-50 w-full p-4 flex-col gap-2">
               <Dialog.Title className="text-slate-200 font-bold text-2xl">
                 {" "}
-                Novo Serviço{" "}
+                {service ? "Editar Serviço" : "Adicionar Serviço"}
               </Dialog.Title>
               <Dialog.Description className="text-slate-500 text-sm">
-                Adicione as informações nescessárias abaixo{" "}
+                {service
+                  ? "Edit as informações nescessárias abaixo"
+                  : " Adicione as informações nescessárias abaixo"}
               </Dialog.Description>
             </div>
-            <FormNewService
-              open={dialogOpen}
-              setOpen={setDialogOpen}
-              setServiceN={setServiceN}
-              serviceN={serviceN}
-            />
+            {service ? (
+              <EditServiceForm
+                service={service}
+                setServiceN={setServiceN}
+                setOpen={setDialogOpen}
+                openAlert={openAlert}
+                setOpenAlert={setOpenAlert}
+              />
+            ) : (
+              <CreateServiceForm
+                setServiceN={setServiceN}
+                setOpen={setDialogOpen}
+                openAlert={openAlert}
+                setOpenAlert={setOpenAlert}
+              />
+            )}
           </Dialog.Content>
         </div>
       </Dialog.Portal>
@@ -51,4 +71,4 @@ const NewServiceButton = ({
   );
 };
 
-export default NewServiceButton;
+export default ServiceTriggerButton;

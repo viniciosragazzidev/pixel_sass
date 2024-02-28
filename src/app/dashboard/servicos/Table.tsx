@@ -10,14 +10,24 @@ import {
 } from "@/components/ui/table";
 import { ServiceType } from "@/utils/types";
 import { IoIosMore, IoMdMore } from "react-icons/io";
+import ServiceTriggerButton from "./components/ServiceTrigger";
 interface Equipment {
   id: number;
   equipamento: string;
   marca: string;
   modelo: string;
 }
+type TableServiceType = {
+  services: ServiceType[];
+  serviceN: any;
+  setServiceN: any;
+};
 
-const TableService = ({ services }: { services: ServiceType[] }) => {
+const TableService = ({
+  services,
+  serviceN,
+  setServiceN,
+}: TableServiceType) => {
   console.log(services);
 
   return (
@@ -86,9 +96,11 @@ const TableService = ({ services }: { services: ServiceType[] }) => {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Button variant="ghost" size="icon" className="text-xl">
-                      <IoIosMore />
-                    </Button>
+                    <ServiceTriggerButton
+                      serviceN={serviceN}
+                      service={service}
+                      setServiceN={setServiceN}
+                    />
                   </TableCell>
                 </TableRow>
               ))}

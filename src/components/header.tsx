@@ -1,9 +1,23 @@
+import { usePathname } from "next/navigation";
 import { Badge } from "./ui/badge";
 import { ImageCircle } from "./ui/imageCircle";
 import Logo from "./ui/logo";
 import { FaAngleDown } from "react-icons/fa6";
 
 const Header = () => {
+  const pathname = usePathname().split("/")[2];
+  const pathnameExact =
+    pathname === "servicos"
+      ? "Serviços"
+      : pathname === "vendas"
+      ? "Vendas"
+      : pathname === undefined
+      ? ""
+      : pathname === "relatorios"
+      ? "Relatórios"
+      : pathname === "configuracoes"
+      ? "Configurações"
+      : "Clientes";
   return (
     <header className="w-full container mx-auto px-8 py-4 flex justify-between items-center border-b border-slate-900 pb-6 ">
       <div className="flex items-center flex-wrap gap-2 justify-center">
@@ -18,8 +32,12 @@ const Header = () => {
             <FaAngleDown className="text-sm text-slate-300" />
           </span>
           <span className="text-2xl text-slate-900">/</span>
-          <span className="text-slate-300 flex items-center gap-2 ">
-            Serviços <FaAngleDown className="text-sm text-slate-300" />
+          <span
+            className={`text-slate-300 flex items-center gap-2 ${
+              !pathname && "hidden"
+            }`}
+          >
+            {pathnameExact} <FaAngleDown className="text-sm text-slate-300" />
           </span>
         </div>
       </div>

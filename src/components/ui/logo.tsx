@@ -3,7 +3,15 @@ import { Silkscreen } from "next/font/google";
 const silkscreen = Silkscreen({ subsets: ["latin"], weight: "400" });
 import { twMerge } from "tailwind-merge";
 import { Badge } from "./badge";
-const Logo = ({ className }: { className?: string }) => {
+const Logo = ({
+  className,
+  classNameBadge,
+  textComplete,
+}: {
+  className?: string;
+  classNameBadge?: string;
+  textComplete?: boolean;
+}) => {
   return (
     <h1
       className={twMerge(
@@ -12,7 +20,16 @@ const Logo = ({ className }: { className?: string }) => {
         className
       )}
     >
-      P <Badge variant="ghost">BETA</Badge>
+      {textComplete ? (
+        <span>
+          Pixel<span className="text-slate-200">99</span>
+        </span>
+      ) : (
+        "P"
+      )}
+      <Badge className={classNameBadge} variant="ghost">
+        BETA
+      </Badge>
     </h1>
   );
 };

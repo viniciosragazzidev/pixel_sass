@@ -12,12 +12,15 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { VscLoading } from "react-icons/vsc";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import NewServiceButton from "./components/newServiceButton";
+import ServiceTriggerButton from "./components/ServiceTrigger";
 import { getServices } from "@/utils/lib";
 import { useNavigateWithQuery } from "@/utils/navigationUtils";
 import { removeQueryParam } from "@/utils/queryStringUtils";
+import AlertDialogTrigger from "@/components/ui/AlertDialog";
 // Componente Servicos
 const Servicos = () => {
+  const [openAlert, setOpenAlert] = useState(false);
+
   // Hooks para gerenciar o estado e a navegação
   const searchParams = useSearchParams();
   const page = searchParams.get("page");
@@ -30,7 +33,7 @@ const Servicos = () => {
   // Utilização de useQuery para buscar dados do servidor
   const { isLoading, data: services } = useQuery({
     queryKey: ["get-services", page, perPage, filter, serviceN],
-    queryFn: () => getServices(Number(page), perPage, urlFilter, filter),
+    queryFn: () => getServices(Number(page) || 1, perPage, urlFilter, filter),
     placeholderData: keepPreviousData,
   });
 
@@ -73,14 +76,21 @@ const Servicos = () => {
   };
   useEffect(() => {
     console.log(serviceN);
-  }, [serviceN]);
+    console.log(services);
+  }, []);
+
   return (
-    <main>
+    <main className="w-full">
       <Header />
       <section className="w-full container mx-auto px-4 py-4 flex flex-col justify-between   pb-6">
         <div className="flex gap-4 max-sm:justify-between py-4">
           <h1 className="text-xl font-semibold text-slate-200">Serviços</h1>{" "}
-          <NewServiceButton serviceN={serviceN} setServiceN={setServiceN} />
+          <ServiceTriggerButton
+            openAlert={openAlert}
+            setOpenAlert={setOpenAlert}
+            serviceN={serviceN}
+            setServiceN={setServiceN}
+          />
         </div>
         <div className="flex gap-2 max-sm:gap-4 flex-wrap justify-between max-sm:justify-start">
           <div className="flex gap-2">
@@ -110,7 +120,13 @@ const Servicos = () => {
             Exportar <CgExport />
           </Button>
         </div>
-
+        <>
+          <AlertDialogTrigger
+            open={openAlert}
+            setOpen={setOpenAlert}
+            handleConfirm
+          />
+        </>
         <div className="py-10 ">
           {isLoading ? (
             <div className="flex w-full min-h-96 justify-center items-center">
@@ -119,7 +135,11 @@ const Servicos = () => {
               </span>
             </div>
           ) : (
-            <TableService services={services.data} />
+            <TableService
+              services={services.data}
+              serviceN={serviceN}
+              setServiceN={setServiceN}
+            />
           )}
           <Pagination
             itemsPerPage={Number(perPage)}

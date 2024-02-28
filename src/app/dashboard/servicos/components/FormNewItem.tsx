@@ -110,7 +110,9 @@ const FormNewItem = ({
   }, [currentItem]);
 
   // Função para lidar com a submissão do formulário
-  const onSubmit = (data: createItemFormData) => {
+  const onSubmit = async (data: createItemFormData) => {
+    console.log("data", data);
+    console.log(currentItem);
     const validateData = formSchema.safeParse(data);
     if (validateData.success) {
       if (currentItem) {
@@ -124,8 +126,8 @@ const FormNewItem = ({
         });
       }
 
-      setCurrentItem(undefined);
       setModeAddNewItem(!modeAddNewItem);
+      setCurrentItem(undefined);
     }
   };
 
@@ -387,7 +389,7 @@ const FormNewItem = ({
           variant="cancel"
           onClick={() => {
             setModeAddNewItem(false);
-            setCurrentItem(null);
+            setCurrentItem(undefined);
           }}
         >
           Cancelar
