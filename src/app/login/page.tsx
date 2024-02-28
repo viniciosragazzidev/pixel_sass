@@ -26,7 +26,7 @@ const Login = () => {
     console.log(data);
   };
   return (
-    <div className="w-full  min-h-screen">
+    <div className="w-full magicpattern  min-h-screen">
       <div className="container w-full h-full flex flex-col space-y-8 justify-center items-center">
         <Logo textComplete />
 
