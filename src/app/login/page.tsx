@@ -7,6 +7,11 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { VscLoading } from "react-icons/vsc";
+import { toast } from "sonner";
+import { auth } from "@/lib/auth";
+import NextAuth from "next-auth";
 const formSchema = z.object({
   email: z.string().min(1, { message: "O email é obrigatório" }),
   password: z.string().min(1, { message: "A senha é obrigatória" }),
@@ -22,18 +27,26 @@ const Login = () => {
     resolver: zodResolver(formSchema),
   });
 
+  const [isLoading, setIsLoading] = React.useState(false);
   const onSubmit = async (data: FormDataType) => {
+    setIsLoading(true);
     try {
       const response = await signIn("credentials", {
         email: data.email,
         password: data.password,
         callbackUrl: "/dashboard",
       });
+
+      setIsLoading(false);
       return response;
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
     }
   };
+
+  const [rememberPassword, setRememberPassword] = React.useState(false);
+
   return (
     <div className="w-full magicpattern  min-h-screen">
       <div className="container w-full h-full flex flex-col space-y-8 justify-center items-center">
@@ -56,9 +69,13 @@ const Login = () => {
                 type="email"
                 className="inputC"
                 placeholder="seuemail@email.com"
+                autoComplete={rememberPassword ? "on" : "off"}
                 {...register("email")}
               />
             </div>
+            {errors.email && (
+              <p className="text-teal-400  text-sm">{errors.email.message}</p>
+            )}
           </div>
           <div className="flex flex-col space-y-2 w-full max-w-[350px] items-center">
             <label
@@ -77,11 +94,46 @@ const Login = () => {
                 {...register("password")}
                 className="inputC"
                 placeholder="***********"
+                autoComplete={rememberPassword ? "on" : "off"}
               />
             </div>
+            {errors.password && (
+              <p className="text-teal-400  text-sm">
+                {errors.password.message}
+              </p>
+            )}
           </div>
-          <button className="bg-teal-950 text-teal-300 w-full max-w-[350px] rounded-full py-2 active:scale-95 transition-all ">
-            Entrar
+          <div className="flex justify-between text-[13px] w-full max-w-[350px]">
+            <p className="flex gap-1 ">
+              <Checkbox
+                onCheckedChange={() => {
+                  setRememberPassword(!rememberPassword);
+                }}
+                checked={rememberPassword}
+                id="remember"
+              />{" "}
+              <label htmlFor="remember" className="text-slate-200 ">
+                Lembrar senha?
+              </label>
+            </p>
+            <p className="text-teal-400  flex items-center gap-1">
+              Esqueceu a senha?{" "}
+              <span className="cursor-pointer font-semibold">Clique aqui</span>
+            </p>
+          </div>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="bg-teal-950 text-teal-300 w-full max-w-[350px] rounded-full py-2 active:scale-95 transition-all "
+          >
+            {isLoading ? (
+              <div className="flex justify-center items-center">
+                {" "}
+                <VscLoading className="animate-spin" />{" "}
+              </div>
+            ) : (
+              "Entrar"
+            )}
           </button>
         </form>
       </div>

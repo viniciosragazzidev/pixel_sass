@@ -132,6 +132,11 @@ html {
 ::-webkit-scrollbar-track {
   @apply bg-slate-900;
 }
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px #0f172a inset;
+}
+
 .magicpattern {
   width: 100%;
   background-size: cover;
