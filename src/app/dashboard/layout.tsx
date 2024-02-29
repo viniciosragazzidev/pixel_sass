@@ -1,4 +1,5 @@
 import Sidebar from "@/components/Sidebar";
+import { parseCookies } from "nookies";
 
 export default function DashboardLayout({
   children,

@@ -1,10 +1,14 @@
+"use client";
 import { usePathname } from "next/navigation";
 import { Badge } from "./ui/badge";
 import { ImageCircle } from "./ui/imageCircle";
 import Logo from "./ui/logo";
 import { FaAngleDown } from "react-icons/fa6";
-
+import { useSession, signIn, signOut } from "next-auth/react";
 const Header = () => {
+  const { data: session } = useSession();
+  console.log(session);
+
   const pathname = usePathname().split("/")[2];
   const pathnameExact =
     pathname === "servicos"
@@ -53,12 +57,17 @@ const Header = () => {
               </Badge>
             </div>
             <span className="text-xs   block max-w-min w-min font-semibold text-slate-500">
-              viniciosragazzzi@gmail.com
+              {session?.user?.email}
             </span>
           </div>
           <ImageCircle variant="base" alt="user" />
         </div>
-        <FaAngleDown className="text-sm text-slate-400" />
+        <span
+          className="cursor-pointer"
+          onClick={() => signOut({ callbackUrl: "/login" })}
+        >
+          <FaAngleDown className="text-sm text-slate-400" />
+        </span>
       </div>
     </header>
   );

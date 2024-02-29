@@ -6,7 +6,7 @@ import { MdAlternateEmail, MdPassword } from "react-icons/md";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
+import { signIn } from "next-auth/react";
 const formSchema = z.object({
   email: z.string().min(1, { message: "O email é obrigatório" }),
   password: z.string().min(1, { message: "A senha é obrigatória" }),
@@ -22,8 +22,17 @@ const Login = () => {
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (data: FormDataType) => {
-    console.log(data);
+  const onSubmit = async (data: FormDataType) => {
+    try {
+      const response = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        callbackUrl: "/dashboard",
+      });
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="w-full magicpattern  min-h-screen">
