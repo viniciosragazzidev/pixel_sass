@@ -13,9 +13,9 @@ import { VscLoading } from "react-icons/vsc";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import ServiceTriggerButton from "./components/ServiceTrigger";
-import { getServices } from "@/utils/lib";
-import { useNavigateWithQuery } from "@/utils/navigationUtils";
-import { removeQueryParam } from "@/utils/queryStringUtils";
+import { getServices } from "@/lib/requisicoes";
+import { useNavigateWithQuery } from "@/lib/navigationUtils";
+import { removeQueryParam } from "@/lib/queryStringUtils";
 import AlertDialogTrigger from "@/components/ui/AlertDialog";
 // Componente Servicos
 const Servicos = () => {

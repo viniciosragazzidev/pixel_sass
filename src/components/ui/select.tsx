@@ -1,4 +1,4 @@
-import { getTecnics } from "@/utils/lib";
+import { getTecnics } from "@/lib/requisicoes";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 import { VariantProps, tv } from "tailwind-variants";

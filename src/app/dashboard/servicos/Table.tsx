@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ServiceType } from "@/utils/types";
+import { ServiceType } from "@/lib/types";
 import { IoIosMore, IoMdMore } from "react-icons/io";
 import ServiceTriggerButton from "./components/ServiceTrigger";
 interface Equipment {

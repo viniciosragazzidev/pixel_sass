@@ -1,7 +1,7 @@
 // Imports necessários
 import { Button } from "@/components/ui/button";
-import { getStatus, getTecnics } from "@/utils/lib";
-import { ItemType } from "@/utils/types";
+import { getStatus, getTecnics } from "@/lib/requisicoes";
+import { ItemType } from "@/lib/types";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import { z } from "zod";
 import { useForm } from "react-hook-form";

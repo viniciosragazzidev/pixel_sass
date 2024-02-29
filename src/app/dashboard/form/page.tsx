@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
-import { getStatus, getTecnics } from "@/utils/lib";
-import { ItemType } from "@/utils/types";
+import { getStatus, getTecnics } from "@/lib/requisicoes";
+import { ItemType } from "@/lib/types";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";

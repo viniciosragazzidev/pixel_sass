@@ -3,8 +3,8 @@
 
 import React, { useState } from "react";
 import ServiceFormContainer, { formSchema } from "./ServiceFormContainer";
-import { ItemType } from "@/utils/types";
-import { createClient, createNewService } from "@/utils/lib";
+import { ItemType } from "@/lib/types";
+import { createClient, createNewService } from "@/lib/requisicoes";
 import { QueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 

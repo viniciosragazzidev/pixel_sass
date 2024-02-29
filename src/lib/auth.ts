@@ -1,8 +1,8 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
+import Credentials from "next-auth/providers/credentials";
 import { sql } from "@vercel/postgres";
-
+import { authConfig } from "./auth.config";
 async function getUser(email: string, password: string) {
   try {
     const user =
@@ -20,18 +20,11 @@ export const {
   signOut,
   handlers: { GET, POST },
 } = NextAuth({
-  session: { strategy: "jwt" },
-  callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      if (credentials) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-  },
+  ...authConfig,
+
   providers: [
-    CredentialsProvider({
+    Credentials({
+      name: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
@@ -41,15 +34,12 @@ export const {
         const { email, password } = credentials;
         const user = await getUser(email, password);
         if (!user) return null;
-        const passwordMatch = user.password === password;
-        if (!passwordMatch) return null;
-
-        return user;
+        return user || null;
       },
     }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
+    // GoogleProvider({
+    //   clientId: process.env.GOOGLE_CLIENT_ID,
+    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    // }),
   ],
 });

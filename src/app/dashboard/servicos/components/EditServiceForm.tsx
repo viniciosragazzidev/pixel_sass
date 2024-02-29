@@ -2,8 +2,8 @@
 
 import React from "react";
 import ServiceFormContainer, { formSchema } from "./ServiceFormContainer";
-import { ItemType, ServiceType } from "@/utils/types";
-import { deleteService, editClient, editService } from "@/utils/lib";
+import { ItemType, ServiceType } from "@/lib/types";
+import { deleteService, editClient, editService } from "@/lib/requisicoes";
 import { toast } from "sonner";
 
 interface EditServiceFormProps {
