@@ -2,6 +2,7 @@
 import { revalidateTag } from "next/cache";
 
 const BASE_URL = "http://localhost:3333"; // Constante para o URL base
+const BASE_URL_LOCAL = "http://localhost:3000"; // Constante para o URL base
 
 // Função utilitária para construir a URL com parâmetros de consulta
 const buildUrl = (path: string, params: Record<string, any>) => {
@@ -12,6 +13,15 @@ const buildUrl = (path: string, params: Record<string, any>) => {
     .join("&");
 
   return `${BASE_URL}/${path}?${queryString}`;
+};
+const buildUrl2 = (path: string, params: Record<string, any>) => {
+  const queryString = Object.keys(params)
+    .map(
+      (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+    )
+    .join("&");
+
+  return `${BASE_URL_LOCAL}/${path}?${queryString}`;
 };
 
 // Função para buscar serviços
@@ -38,7 +48,7 @@ export const getServices = async (
   };
   const fullUrl = buildUrl("services", queryParams);
 
-  console.log(fullUrl);
+  //console.log(fullUrl);
 
   // Requisição assíncrona dos serviços
   const response = await fetch(fullUrl, {
@@ -55,47 +65,23 @@ export const getServices = async (
 };
 
 // Função para buscar clientes por documento ou ID
-export const getClientsByDocumentOrId = async ({
-  id,
-  document,
-  page = 1,
-  perPage = 10,
-  urlFilter,
-  filter,
-}: {
-  id?: string;
-  document?: string;
-  page?: number;
-  perPage?: number;
-  urlFilter?: string | null;
-  filter?: string | null;
-} = {}) => {
+export const getClientsByDocumentOrId = async (document: string) => {
   // Construindo a URL
-  const queryParams = {
-    _page: page,
-    _per_page: perPage,
-    ...(id ? { id } : {}),
-    ...(document ? { document } : {}),
-    ...(urlFilter && urlFilter.length > 2 ? { id: urlFilter } : {}),
-    ...(filter && filter.length > 2 ? { id: filter } : {}),
-  };
-  const fullUrl = buildUrl("clients", queryParams);
 
-  console.log(fullUrl);
-
+  const fullUrl = `${BASE_URL_LOCAL}/api/company_client?document=${document}`;
+  //console.log(fullUrl);
   // Requisição assíncrona dos clientes
-  const response = await fetch(fullUrl, {
-    next: {
-      revalidate: 1,
-      tags: ["clients"],
-    },
-  });
-  if (!response.ok) {
+  try {
+    const response = await fetch(fullUrl, {
+      next: {
+        revalidate: 300,
+        tags: ["clients"],
+      },
+    });
+    return await response.json();
+  } catch (error) {
     throw new Error("Erro ao buscar clientes.");
   }
-  const data = await response.json();
-  console.log(data);
-  return data;
 };
 
 // Função para buscar técnicos
@@ -124,20 +110,28 @@ export const getStatus = async () => {
 
 // Função para criar um novo cliente
 export const createClient = async (data: any) => {
-  const fullUrl = `${BASE_URL}/clients`;
+  const fullUrl = `${BASE_URL_LOCAL}/api/company_client`;
+  console.log(fullUrl);
 
-  const response = await fetch(fullUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-  if (!response.ok) {
+  try {
+    const response = await fetch(fullUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+    console.log(
+      "criarndo " + JSON.stringify(result) + " - " + JSON.stringify(data)
+    );
+
+    return result;
+  } catch (error) {
+    console.log("error aqui");
+
     throw new Error("Erro ao criar cliente.");
   }
-  const result = await response.json();
-  return result;
 };
 
 // Função para editar um cliente
@@ -215,4 +209,151 @@ export const deleteService = async (id: string) => {
   const result = await response.json();
   revalidateTag("services");
   return result;
+};
+
+/// users
+
+export const getUser = async (email: string) => {
+  const fullURL = `${BASE_URL_LOCAL}/api/users?email=${email}`;
+
+  try {
+    const response = await fetch(fullURL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      next: {
+        revalidate: 1000,
+      },
+    });
+
+    const data = await response.json();
+    //console.log(data, fullURL);
+
+    return data;
+  } catch (error) {
+    throw new Error("Erro ao buscar usuário.");
+  }
+};
+
+export const createUser = async (data: any) => {
+  const fullURL = `${BASE_URL_LOCAL}/api/users`;
+
+  try {
+    const response = await fetch(fullURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const user = await response.json();
+    return user;
+  } catch (error) {
+    throw new Error("Erro ao criar usuário.");
+  }
+};
+
+export const getRoles = async (id: string) => {
+  const fullURL = `${BASE_URL_LOCAL}/api/role?id=${id}`;
+
+  try {
+    const response = await fetch(fullURL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      next: {
+        revalidate: 1000,
+      },
+    });
+
+    const data = await response.json();
+    //console.log(data, fullURL);
+
+    return data;
+  } catch (error) {
+    throw new Error("Erro ao buscar usuário.");
+  }
+};
+
+// Profile
+
+export const getProfile = async ({ email }: { email: string }) => {
+  const fullURL = `${BASE_URL_LOCAL}/api/profile`;
+
+  try {
+    const response = await fetch(fullURL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(email),
+    });
+
+    const data = await response.json();
+    //console.log(data, fullURL);
+
+    return data;
+  } catch (error) {
+    throw new Error("Erro ao buscar perfil.");
+  }
+};
+
+export const createProfile = async (data: any) => {
+  const fullURL = `${BASE_URL_LOCAL}/api/profile`;
+  try {
+    const response = await fetch(fullURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    //console.log(response);
+
+    return response.json();
+  } catch (error) {
+    throw new Error("Erro ao criar perfil.");
+  }
+};
+
+// Company
+
+export const getCompany = async (id: string) => {
+  const fullURL = `${BASE_URL_LOCAL}/api/company?id=${id}`;
+
+  try {
+    const response = await fetch(fullURL, {
+      next: {
+        revalidate: 3000,
+      },
+    });
+    return await response.json();
+  } catch (error) {
+    throw new Error("Erro ao buscar empresa.");
+  }
+};
+
+export const createCompany = async (data: any) => {
+  const fullURL = `${BASE_URL_LOCAL}/api/company`;
+
+  try {
+    const response = await fetch(fullURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    //console.log(response);
+
+    return response.json();
+  } catch (error) {
+    //console.log(error);
+    throw new Error("Erro ao criar empresa. Req");
+  }
 };

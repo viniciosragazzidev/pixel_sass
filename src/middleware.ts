@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import { authConfig } from "./lib/auth.config";
 import { DEFAULT_REDIRECT, PUBLIC_ROUTES, ROOT } from "@/lib/routes";
+import { NextRequest, NextResponse } from "next/server";
 const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
@@ -14,8 +15,16 @@ export default auth((req) => {
 
   if (!isAuthenticated && !isPublicRoute)
     return Response.redirect(new URL(ROOT, nextUrl));
+
+  if (isAuthenticated) {
+    if (req.nextUrl.pathname === "/dashboard") {
+      return NextResponse.redirect(new URL("/dashboard/home", req.url));
+    }
+  }
+
+  // role
 });
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!api|_next/static|_next/image).*)"],
 };

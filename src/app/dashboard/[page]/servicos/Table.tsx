@@ -28,7 +28,7 @@ const TableService = ({
   serviceN,
   setServiceN,
 }: TableServiceType) => {
-  console.log(services);
+  //console.log(services);
 
   return (
     <div className="w-full overflow-x-auto ">

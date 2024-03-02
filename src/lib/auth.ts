@@ -1,18 +1,10 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-import { sql } from "@vercel/postgres";
+import bcrypt from "bcrypt";
+
 import { authConfig } from "./auth.config";
-async function getUser(email: string, password: string) {
-  try {
-    const user =
-      await sql`SELECT * FROM users WHERE email = ${email} AND password = ${password};`;
-    return user.rows[0];
-  } catch (error) {
-    console.log("Falha na autenticação:", error);
-    throw new Error("Falha na autenticação");
-  }
-}
+import { getUser } from "./requisicoes";
 
 export const {
   auth,
@@ -32,9 +24,13 @@ export const {
 
       async authorize(credentials: any) {
         const { email, password } = credentials;
-        const user = await getUser(email, password);
+        const req = await getUser(email);
+        const user = await req?.users[0];
+        const isValid = await bcrypt.compare(password, user?.password || "");
+
         if (!user) return null;
-        return user || null;
+        if (!isValid) throw new Error("Email ou senha inválidos");
+        return user;
       },
     }),
     // GoogleProvider({

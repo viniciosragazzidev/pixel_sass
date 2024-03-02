@@ -1,10 +1,7 @@
 // Importação de módulos e componentes necessários
 "use client";
-import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
-import { Input, InputController } from "@/components/ui/input";
 import { CgExport } from "react-icons/cg";
-import { FaSearch } from "react-icons/fa";
 import { FaFilter, FaPlus } from "react-icons/fa6";
 import TableService from "./Table";
 import Pagination from "@/components/ui/pagination";
@@ -18,7 +15,7 @@ import { useNavigateWithQuery } from "@/lib/navigationUtils";
 import { removeQueryParam } from "@/lib/queryStringUtils";
 import AlertDialogTrigger from "@/components/ui/AlertDialog";
 // Componente Servicos
-const Servicos = () => {
+const Servicos = (data: any) => {
   const [openAlert, setOpenAlert] = useState(false);
 
   // Hooks para gerenciar o estado e a navegação
@@ -75,19 +72,17 @@ const Servicos = () => {
     }
   };
   useEffect(() => {
-    console.log(serviceN);
-    console.log(services);
+    //console.log(serviceN);
+    //console.log(services);
   }, []);
 
   return (
     <main className="w-full">
-      <Header />
       <section className="w-full container mx-auto px-4 py-4 flex flex-col justify-between   pb-6">
         <div className="flex gap-4 max-sm:justify-between py-4">
           <h1 className="text-xl font-semibold text-slate-200">Serviços</h1>{" "}
           <ServiceTriggerButton
-            openAlert={openAlert}
-            setOpenAlert={setOpenAlert}
+            data={data}
             serviceN={serviceN}
             setServiceN={setServiceN}
           />

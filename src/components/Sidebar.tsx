@@ -15,21 +15,21 @@ const Sidebar = () => {
       ? "serviços"
       : pathname === "vendas"
       ? "vendas"
-      : pathname === undefined
-      ? "dashboard"
+      : pathname === "clientes"
+      ? "clientes"
       : pathname === "relatorios"
       ? "relatórios"
       : pathname === "configuracoes"
       ? "configurações"
-      : "clientes";
+      : "home";
 
-  console.log(pathname);
+  //console.log(pathname, pathnameExact);
 
   const items = [
     {
-      name: "Dashboard",
+      name: "Home",
       icon: <FaHome />,
-      href: "/dashboard",
+      href: "/dashboard/home",
     },
     {
       name: "Serviços",
@@ -90,7 +90,9 @@ const Sidebar = () => {
                     {item.icon}
                   </span>
                   <span
-                    className={`text-sm text-slate-200 ${!isOpen && "hidden"}`}
+                    className={`text-sm text-slate-200 ${
+                      !isOpen ? "opacity-0" : "opacity-100"
+                    }`}
                   >
                     {item.name}
                   </span>

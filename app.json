@@ -22,6 +22,271 @@
           "created_at": "2024-02-28T02:08:14.853Z"
         }
       ]
+    },
+    {
+      "id": "aabb",
+      "created_at": "2024-03-01T21:45:21.902Z",
+      "client": {
+        "name": "Vinicios",
+        "contact": "21980534112"
+      },
+      "items": [
+        {
+          "id": "5909",
+          "item": "sfasf",
+          "brand": "asfasf",
+          "model": "asfasf",
+          "nSerie": "asfas",
+          "acessories": "f",
+          "status": "Aguardando",
+          "tecnico": "Tecnico 1",
+          "description": "asfasfas fasfasf",
+          "created_at": "2024-03-01T21:45:06.494Z"
+        }
+      ]
+    },
+    {
+      "id": "eeca",
+      "created_at": "2024-03-01T21:49:13.742Z",
+      "client": {
+        "name": "Ana Maria",
+        "contact": "21980534112"
+      },
+      "items": [
+        {
+          "id": "222",
+          "item": "asfasf",
+          "brand": "aafsas",
+          "model": "asfaf",
+          "nSerie": "afsa",
+          "acessories": "asfasf",
+          "status": "Em processo",
+          "tecnico": "Tecnico 2",
+          "description": "asfsaf asfasf asfasf saf",
+          "created_at": "2024-03-01T21:48:58.748Z"
+        }
+      ]
+    },
+    {
+      "id": "6209",
+      "created_at": "2024-03-01T21:53:05.111Z",
+      "client": {
+        "name": "asfgasf",
+        "contact": "asfasf"
+      },
+      "items": [
+        {
+          "id": "3680",
+          "item": "agasfas",
+          "brand": "fasf",
+          "model": "asfasf",
+          "nSerie": "asfa",
+          "acessories": "sfa",
+          "status": "Pendente",
+          "tecnico": "Tecnico 1",
+          "description": "asfasfasfasfasf",
+          "created_at": "2024-03-01T21:52:54.567Z"
+        }
+      ]
+    },
+    {
+      "id": "9a20",
+      "created_at": "2024-03-01T21:56:23.461Z",
+      "client": {
+        "name": "Vinicios Ragazzi",
+        "contact": "21980534112"
+      },
+      "items": [
+        {
+          "id": "4588",
+          "item": "NOVO",
+          "brand": "asasf",
+          "model": "asf",
+          "nSerie": "asfasf",
+          "acessories": "asfasf",
+          "status": "Em processo",
+          "tecnico": "Tecnico 1",
+          "description": "afsasfasfasfsaf",
+          "created_at": "2024-03-01T21:56:06.055Z"
+        }
+      ]
+    },
+    {
+      "id": "04a4",
+      "created_at": "2024-03-01T21:59:09.464Z",
+      "client": {
+        "name": "Vinicios Ragazzi",
+        "contact": "21980534112"
+      },
+      "items": [
+        {
+          "id": "9575",
+          "item": "asfasfas",
+          "brand": "asfasf",
+          "model": "saf",
+          "nSerie": "asf",
+          "acessories": "asff",
+          "useBrandValue": "faasf",
+          "status": "Em processo",
+          "tecnico": "Tecnico 1",
+          "description": "asffafsasf",
+          "created_at": "2024-03-01T21:58:54.920Z"
+        }
+      ]
+    },
+    {
+      "id": "8d24",
+      "created_at": "2024-03-01T22:02:31.654Z",
+      "client": {
+        "name": "safasf",
+        "contact": "412454645"
+      },
+      "items": [
+        {
+          "id": "5232",
+          "item": "asfasf",
+          "brand": "asfas",
+          "model": "fasf",
+          "nSerie": "asfsf",
+          "acessories": "asf",
+          "status": "Em processo",
+          "tecnico": "Tecnico 2",
+          "description": "asfasfas fasfasfas",
+          "created_at": "2024-03-01T22:00:26.964Z"
+        }
+      ]
+    },
+    {
+      "id": "5e00",
+      "created_at": "2024-03-01T22:04:39.943Z",
+      "client": {
+        "name": "asfasf",
+        "contact": "asfasf"
+      },
+      "items": [
+        {
+          "id": "3167",
+          "item": "asasfasff",
+          "brand": "asfasf",
+          "model": "afasfa",
+          "nSerie": "asfasf",
+          "acessories": "fasfsf",
+          "status": "Aguardando",
+          "tecnico": "Tecnico 1",
+          "description": "fasfasfasf",
+          "created_at": "2024-03-01T22:04:24.051Z"
+        }
+      ]
+    },
+    {
+      "id": "ded1",
+      "created_at": "2024-03-01T22:05:29.555Z",
+      "client": {
+        "name": "asfasf",
+        "contact": "asfasf"
+      },
+      "items": [
+        {
+          "id": "3167",
+          "item": "asasfasff",
+          "brand": "asfasf",
+          "model": "afasfa",
+          "nSerie": "asfasf",
+          "acessories": "fasfsf",
+          "status": "Aguardando",
+          "tecnico": "Tecnico 1",
+          "description": "fasfasfasf",
+          "created_at": "2024-03-01T22:04:24.051Z"
+        }
+      ]
+    },
+    {
+      "id": "90fd",
+      "created_at": "2024-03-01T22:05:55.756Z",
+      "client": {
+        "name": "asfasf",
+        "contact": "asfasf"
+      },
+      "items": [
+        {
+          "id": "3167",
+          "item": "asasfasff",
+          "brand": "asfasf",
+          "model": "afasfa",
+          "nSerie": "asfasf",
+          "acessories": "fasfsf",
+          "status": "Aguardando",
+          "tecnico": "Tecnico 1",
+          "description": "fasfasfasf",
+          "created_at": "2024-03-01T22:04:24.051Z"
+        }
+      ]
+    },
+    {
+      "id": "a591",
+      "created_at": "2024-03-01T22:11:19.170Z",
+      "client": {
+        "name": "asfasf",
+        "contact": "asfasf"
+      },
+      "items": [
+        {
+          "id": "3167",
+          "item": "asasfasff",
+          "brand": "asfasf",
+          "model": "afasfa",
+          "nSerie": "asfasf",
+          "acessories": "fasfsf",
+          "status": "Aguardando",
+          "tecnico": "Tecnico 1",
+          "description": "fasfasfasf",
+          "created_at": "2024-03-01T22:04:24.051Z"
+        }
+      ]
+    },
+    {
+      "id": "e658",
+      "created_at": "2024-03-01T22:13:06.050Z",
+      "client": {
+        "name": "asfa",
+        "contact": "asfasf"
+      },
+      "items": [
+        {
+          "id": "8874",
+          "item": "asfasf",
+          "brand": "fasfasf",
+          "model": "asfasf",
+          "nSerie": "asfasfas",
+          "acessories": "asfasfas",
+          "status": "Em processo",
+          "tecnico": "Tecnico 1",
+          "description": "afsasfa sfasfasfas",
+          "created_at": "2024-03-01T22:12:49.948Z"
+        }
+      ]
+    },
+    {
+      "id": "637f",
+      "created_at": "2024-03-01T22:15:21.603Z",
+      "client": {
+        "name": "asfa",
+        "contact": "asfasf"
+      },
+      "items": [
+        {
+          "id": "8874",
+          "item": "asfasf",
+          "brand": "fasfasf",
+          "model": "asfasf",
+          "nSerie": "asfasfas",
+          "acessories": "asfasfas",
+          "status": "Em processo",
+          "tecnico": "Tecnico 1",
+          "description": "afsasfa sfasfasfas",
+          "created_at": "2024-03-01T22:12:49.948Z"
+        }
+      ]
     }
   ],
   "tecnicos": [

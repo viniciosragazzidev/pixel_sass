@@ -24,6 +24,7 @@ import { ImBlocked } from "react-icons/im";
 import * as Dialog from "@radix-ui/react-dialog";
 import FormNewItem from "./FormNewItem";
 import AlertDialogTrigger from "@/components/ui/AlertDialog";
+import { VscLoading } from "react-icons/vsc";
 interface ServiceFormContainerProps {
   isNew: boolean;
   service?: any;
@@ -36,7 +37,6 @@ interface ServiceFormContainerProps {
   deleteService?: (item: ItemType) => void;
 }
 export const formSchema = z.object({
-  id: z.string().min(1, { message: "O id é obrigatório" }),
   name: z.string().min(1, { message: "O nome é obrigatório" }),
   document: z.string().min(1, { message: "O documento é obrigatório" }),
   contact: z.string().min(1, { message: "O contato é obrigatório" }),
@@ -80,7 +80,6 @@ const ServiceFormContainer: FC<ServiceFormContainerProps> = ({
   // Função para limpar os inputs do formulário
   const resetInputs = () => {
     reset({
-      id: "",
       name: "",
       contact: "",
       address: "",
@@ -91,18 +90,15 @@ const ServiceFormContainer: FC<ServiceFormContainerProps> = ({
   };
 
   const sendValuesToFields = async (data: any) => {
-    const id = data.client.id;
-    const client = await getClientsByDocumentOrId({
-      id,
-    });
+    const document = data.client.document;
+    const client = await getClientsByDocumentOrId(document);
 
-    setValue("name", client.data[0].name);
-    setValue("contact", client.data[0].contact);
-    setValue("gender", client.data[0].gender);
-    setValue("address", client.data[0].address);
-    setValue("cep", client.data[0].cep);
-    setValue("document", client.data[0].document);
-    setValue("id", client.data[0].id);
+    setValue("name", client.name);
+    setValue("contact", client.contact);
+    setValue("gender", client.gender);
+    setValue("address", client.address);
+    setValue("cep", client.cep);
+    setValue("document", client.document);
 
     setListItems([...listItems, ...data.items]);
     if (client) {
@@ -111,14 +107,17 @@ const ServiceFormContainer: FC<ServiceFormContainerProps> = ({
   };
 
   // Função para verificar o documento do cliente ao ser digitado
+
+  const [loadClient, setLoadClient] = useState(false);
   const verifyDocumentByClient = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (e.target.value.length === 11) {
       let document = e.target.value;
-      const data = await getClientsByDocumentOrId({ document });
+      const data = await getClientsByDocumentOrId(document);
+      const client = data.client;
+      setLoadClient(true);
 
-      const client = data.data[0];
       if (client) {
         setValue("name", client.name);
         setValue("contact", client.contact);
@@ -126,8 +125,8 @@ const ServiceFormContainer: FC<ServiceFormContainerProps> = ({
         setValue("address", client.address);
         setValue("cep", client.cep);
         setValue("document", client.document);
-        setValue("id", client.id);
         isNew && setNewUser(false);
+        setLoadClient(false);
       } else {
         isNew && setNewUser(true);
         setDisabledUserInputs(false);
@@ -187,7 +186,6 @@ const ServiceFormContainer: FC<ServiceFormContainerProps> = ({
             </div>
           )}
           <form onSubmit={handleSubmit(submitHandler)} className="space-y-6">
-            <input type="text" hidden {...register("id")} />
             <div className="flex gap-4">
               <div className="flex flex-col gap-3 flex-1">
                 <label htmlFor="document" className="text-slate-300 text-sm ">
@@ -206,6 +204,11 @@ const ServiceFormContainer: FC<ServiceFormContainerProps> = ({
                     })}
                     placeholder="000.000.000-00"
                   />
+                  <span
+                    className={` hidden ${loadClient && "block"} text-teal-300`}
+                  >
+                    <VscLoading className="animate-spin" />
+                  </span>
                 </div>
                 {errors.document && errors.document.message && (
                   <span className="subtitle_error">

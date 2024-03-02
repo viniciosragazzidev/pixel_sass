@@ -86,6 +86,15 @@
 html {
   scroll-behavior: smooth;
 }
+
+.title {
+  @apply text-3xl font-bold text-slate-200;
+}
+
+.subtitle {
+  @apply text-sm text-slate-400;
+}
+
 .labelC {
   @apply text-sm text-slate-300;
 }
@@ -146,4 +155,43 @@ input:-webkit-autofill {
 }
 
 .sliderToLeft {
+  animation: sliderToLeft 0.5s forwards, opacityShow 0.5s forwards;
+}
+
+@keyframes sliderToLeft {
+  0% {
+    transform: translateX(100px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes opacityShow {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.zoomIn {
+  animation: zoomIn 0.3s forwards;
+}
+
+@keyframes zoomIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.opacityShow {
+  opacity: 0;
+  animation: opacityShow 0.3s 0.2s forwards;
 }

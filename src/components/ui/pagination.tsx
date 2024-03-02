@@ -41,7 +41,7 @@ const Pagination = ({
   const changeItemsPerPage = (e: React.ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault();
     setPerPage(Number(e.target.value));
-    console.log(itemsPerPage);
+    //console.log(itemsPerPage);
 
     const newQueryString = createQueryString("page", "1");
 
@@ -65,7 +65,7 @@ const Pagination = ({
     if (name === "next") {
       if (page < pages) {
         pageC = page + 1;
-        console.log(page, pageC);
+        //console.log(page, pageC);
 
         router.push(newQueryString(page == 0 ? pageC + 1 : pageC));
       }

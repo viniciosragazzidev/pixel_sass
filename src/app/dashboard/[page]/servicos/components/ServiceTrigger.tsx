@@ -9,17 +9,14 @@ import { IoIosMore } from "react-icons/io";
 import EditServiceForm from "./EditServiceForm";
 
 const ServiceTriggerButton = ({
-  serviceN,
   setServiceN,
   service,
-  openAlert,
-  setOpenAlert,
+  data,
 }: {
+  data: any;
   serviceN: any;
   setServiceN: any;
   service?: any;
-  openAlert: boolean;
-  setOpenAlert: any;
 }) => {
   const [dialogOpen, setDialogOpen] = React.useState<boolean | undefined>();
 
@@ -35,7 +32,7 @@ const ServiceTriggerButton = ({
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-slate-950/80 inset-0 fixed backdrop-blur-sm" />
-        <div className="fixed  h-screen   top-0 right-0 ">
+        <div className="fixed  h-screen   top-0 right-0 sliderToLeft ">
           <Dialog.Content className=" relative h-screen overflow-y-auto space-y-2 w-full max-w-xl bg-slate-950  rounded-lg shadow-lg">
             <div className="flex fixed bg-slate-950 z-50 w-full p-4 flex-col gap-2">
               <Dialog.Title className="text-slate-200 font-bold text-2xl">
@@ -50,18 +47,16 @@ const ServiceTriggerButton = ({
             </div>
             {service ? (
               <EditServiceForm
+                // data={data}
                 service={service}
                 setServiceN={setServiceN}
                 setOpen={setDialogOpen}
-                openAlert={openAlert}
-                setOpenAlert={setOpenAlert}
               />
             ) : (
               <CreateServiceForm
+                data={data}
                 setServiceN={setServiceN}
                 setOpen={setDialogOpen}
-                openAlert={openAlert}
-                setOpenAlert={setOpenAlert}
               />
             )}
           </Dialog.Content>

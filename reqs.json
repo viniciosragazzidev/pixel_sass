@@ -1,0 +1,20 @@
+[
+  {
+    "name": "admin",
+    "permissions": [
+      "read",
+      "write",
+      "delete",
+      "create",
+      "manageUsers",
+      "manageSettings",
+      "managePermissions"
+    ]
+  },
+  {
+    "name": "Maria Soares",
+    "email": "maria@gmail.com",
+    "password": "17761132763",
+    "roleId": "f189fe2c-e95a-4c64-96d5-576c9a723399"
+  }
+]

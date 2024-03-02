@@ -111,8 +111,8 @@ const FormNewItem = ({
 
   // Função para lidar com a submissão do formulário
   const onSubmit = async (data: createItemFormData) => {
-    console.log("data", data);
-    console.log(currentItem);
+    //console.log("data", data);
+    //console.log(currentItem);
     const validateData = formSchema.safeParse(data);
     if (validateData.success) {
       if (currentItem) {

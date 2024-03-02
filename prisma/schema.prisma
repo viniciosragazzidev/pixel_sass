@@ -1,13 +1,109 @@
-// schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  url       = env("POSTGRES_PRISMA_URL") // usa pooling de conexões
+  directUrl = env("POSTGRES_URL_NON_POOLING") // usa conexão direta
+}
+
+model Company {
+  id          String  @id @default(cuid()) // ID único da empresa
+  name        String // Nome da empresa
+  address     String? // Endereço físico da empresa
+  cep         String? // CEP da empresa
+  city        String? // Cidade da empresa
+  state       String? // Estado da empresa
+  country     String? // País da empresa
+  companyType String? // Tipo de empresa
+  phoneNumber String? // Número de telefone da empresa
+  email       String? // Endereço de e-mail da empresa
+  website     String? // Site oficial da empresa
+  cnpj        String? // CNPJ (Cadastro Nacional da Pessoa Jurídica) da empresa
+  industry    String? // Setor de atuação da empresa (por exemplo, tecnologia, saúde, varejo, etc.)
+  description String? // Breve descrição da empresa, produtos ou serviços
+  logo        String? // URL da imagem de logo da empresa
+  users       User[] // Relacionamento com usuários
+
+  createdAt DateTime @default(now()) @map(name: "created_at") // Data de criação da empresa
+  updatedAt DateTime @updatedAt @map(name: "updated_at") // Data de atualização da empresa
+
+  Client       Client[]
+  OrderService OrderService[]
+  Technician   Technician[]
+}
+
+model Technician {
+  id           String         @id @default(cuid())
+  name         String
+  contact      String
+  function     String
+  OrderService OrderService[]
+  Company      Company?       @relation(fields: [companyId], references: [id])
+  companyId    String?
+
+  @@map(name: "technicians")
+}
+
+model Client {
+  id           String         @id @default(cuid()) // ID único do cliente
+  name         String // Nome do cliente
+  email        String? // E-mail do cliente
+  document     String? // Documento de identificação do cliente
+  gender       String? // Genero do cliente
+  contact      String? // Contato do cliente
+  address      String? // Endereço do cliente
+  cep          String? // CEP do cliente
+  city         String? // Cidade do cliente
+  state        String? // Estado do cliente
+  company      Company        @relation(fields: [companyId], references: [id]) // Relacionamento com a empresa
+  companyId    String
+  OrderService OrderService[]
+
+  @@map(name: "clients")
+}
+
+model OrderService {
+  id        String    @id @default(cuid()) // ID único do serviço de pedido
+  client    Client    @relation(fields: [clientId], references: [id]) // Relacionamento com o cliente
+  clientId  String
+  createdAt DateTime  @default(now()) @map(name: "created_at") // Data de criação do pedido
+  updatedAt DateTime  @updatedAt @map(name: "updated_at") // Data de atualização do pedido
+  ItemsOs   ItemsOs[]
+
+  company      Company     @relation(fields: [companyId], references: [id]) // Relacionamento com a empresa
+  companyId    String
+  Technician   Technician? @relation(fields: [technicianId], references: [id])
+  technicianId String?
+
+  @@map(name: "order_services")
+}
+
+model ItemsOs {
+  id             String         @id @default(cuid())
+  orderService   OrderService   @relation(fields: [orderServiceId], references: [id]) // Relacionamento com o pedido
+  orderServiceId String // ID do pedido
+  item           String // Item do pedido
+  brand          String // Marca do item
+  model          String // Modelo do item
+  nSerie         String // Número de seírie do item
+  status         String // Status do item
+  tecnico        String // Tecnico responsável pelo item
+  description    String // Descrição do item
+  acessories     String? // Acessórios
+  usageBrand     String? // Marca de uso
+  createdAt      DateTime       @default(now()) @map(name: "created_at")
+  StatusItemOs   StatusItemOs[]
+}
+
+model StatusItemOs {
+  id        String   @id @default(cuid())
+  status    String
+  itemOs    ItemsOs  @relation(fields: [itemId], references: [id])
+  itemId    String
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
 }
 
 model User {
@@ -17,6 +113,42 @@ model User {
   password  String?
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
+  Profile   Profile?
+  Company   Company? @relation(fields: [companyId], references: [id])
+  companyId String? // ID da empresa
+  Role      Role?    @relation(fields: [roleId], references: [id]) // Relacionamento com o papel
+  roleId    String? // ID do papel
 
   @@map(name: "users")
+}
+
+model Profile {
+  id           String    @id @default(cuid())
+  userId       String    @unique
+  user         User      @relation(fields: [userId], references: [id])
+  name         String // Nome
+  surname      String? // Sobrenome
+  gender       String? // Genero
+  birthDate    DateTime? // Data de nascimento
+  address      String? // Endereço
+  cep          String? // CEP
+  city         String? // Cidade
+  state        String? // Estado
+  country      String? // País
+  email        String? // Endereço de e-mail
+  phoneNumber  String? // Número de telefone
+  document     String? // Documento de identificação
+  profileImage String? // URL da imagem de perfil
+  position     String? // Cargo
+
+  @@map(name: "profiles")
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  name        String
+  permissions String[]
+  users       User[] // Lista de usuários associados a este papel
+
+  @@map(name: "roles")
 }

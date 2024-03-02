@@ -12,6 +12,7 @@ import { VscLoading } from "react-icons/vsc";
 import { toast } from "sonner";
 import { auth } from "@/lib/auth";
 import NextAuth from "next-auth";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 const formSchema = z.object({
   email: z.string().min(1, { message: "O email é obrigatório" }),
   password: z.string().min(1, { message: "A senha é obrigatória" }),
@@ -41,11 +42,12 @@ const Login = () => {
       return response;
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
+      //console.log(error);
     }
   };
 
   const [rememberPassword, setRememberPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
 
   return (
     <div className="w-full magicpattern  min-h-screen">
@@ -90,12 +92,18 @@ const Login = () => {
                 <MdPassword />
               </span>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 {...register("password")}
                 className="inputC"
                 placeholder="***********"
                 autoComplete={rememberPassword ? "on" : "off"}
               />
+              <span
+                className="inputIcon text-sm cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
+              </span>
             </div>
             {errors.password && (
               <p className="text-teal-400  text-sm">

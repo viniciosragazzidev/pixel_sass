@@ -10,8 +10,6 @@ interface EditServiceFormProps {
   service: ServiceType;
   setServiceN: any;
   setOpen: any;
-  openAlert: boolean;
-  setOpenAlert: any;
 }
 
 const EditServiceForm = ({
@@ -52,7 +50,7 @@ const EditServiceForm = ({
         alert("Adicione pelo menos um item ao serviço");
       }
     } else {
-      console.log(verifyData.error);
+      //console.log(verifyData.error);
     }
   };
 
