@@ -44,8 +44,6 @@ export type CompanyFormData = z.infer<typeof CompanySchema>;
 
 const FormCompany = ({
   data,
-  currentStep,
-  setCurrentStep,
   currentCompany,
   setCurrentCompany,
 }: {
@@ -83,7 +81,6 @@ const FormCompany = ({
         const response = await createCompany(company);
 
         if (response) {
-          setCurrentStep(3);
           setLoading(false);
           queryClient.invalidateQueries({ queryKey: ["users"] });
           setCurrentCompany(response);

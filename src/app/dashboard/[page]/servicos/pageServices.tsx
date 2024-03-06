@@ -9,34 +9,36 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { VscLoading } from "react-icons/vsc";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import ServiceTriggerButton from "./components/ServiceTrigger";
 import { getServices } from "@/lib/requisicoes";
 import { useNavigateWithQuery } from "@/lib/navigationUtils";
 import { removeQueryParam } from "@/lib/queryStringUtils";
 import AlertDialogTrigger from "@/components/ui/AlertDialog";
+import ButtonDrawerService from "./manager_services/ServiceDrawer";
 // Componente Servicos
 const Servicos = (data: any) => {
-  const [openAlert, setOpenAlert] = useState(false);
-
   // Hooks para gerenciar o estado e a navegação
   const searchParams = useSearchParams();
-  const page = searchParams.get("page");
-  let urlFilter = searchParams.get("filter");
-  const [perPage, setPerPage] = useState(10);
-  const [inputText, setInputText] = useState("");
-  const [filter, setFilter] = useState<string | null>();
-  const [serviceN, setServiceN] = useState({} as any);
-
-  // Utilização de useQuery para buscar dados do servidor
-  const { isLoading, data: services } = useQuery({
-    queryKey: ["get-services", page, perPage, filter, serviceN],
-    queryFn: () => getServices(Number(page) || 1, perPage, urlFilter, filter),
-    placeholderData: keepPreviousData,
-  });
 
   // Extração de itens e páginas dos serviços
-  const items = services?.items || 0;
-  const pages = services?.pages || 0;
+  const page = searchParams.get("page");
+  const [perPage, setPerPage] = useState(10);
+  const items = 0;
+  const pages = 0;
+  ///////////////////////////////////////////////////////
+
+  // Estados de filtro
+  const [inputText, setInputText] = useState("");
+  const [filter, setFilter] = useState<string | null>();
+  let urlFilter = searchParams.get("filter");
+  ///////////////////////////////////////////////////////
+
+  //=== Estado de loading
+  const [isLoading, setIsLoading] = useState(false);
+  ///////////////////////////////////////////////////////
+
+  //===== Estados compartilhados
+  const [isNewUser, setIsNewUser] = useState(true);
+  ///////////////////////////////////////////////////////
 
   // Função para criar uma string de consulta
   const createQueryString = useCallback(
@@ -49,42 +51,24 @@ const Servicos = (data: any) => {
 
     [searchParams]
   );
-
-  // Utilização do hook useRouter para navegação
+  ///////////////////////////////////////////////////////
 
   // Função para alterar o filtro de entrada
   const navigateWithQuery = useNavigateWithQuery();
+  ///////////////////////////////////////////////////////
 
-  // Função para lidar com a mudança do filtro de busca
-  const changeInputFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setInputText(value);
-    if (value) {
-      const queryParams = createQueryString("filter", value);
-      navigateWithQuery(queryParams);
-
-      if (value.length < 2) {
-        setFilter("");
-      }
-    } else {
-      const queryParams = removeQueryParam(searchParams, "filter");
-      navigateWithQuery(queryParams);
-    }
+  const services: any = {
+    data: [],
   };
-  useEffect(() => {
-    //console.log(serviceN);
-    //console.log(services);
-  }, []);
 
   return (
     <main className="w-full">
       <section className="w-full container mx-auto px-4 py-4 flex flex-col justify-between   pb-6">
         <div className="flex gap-4 max-sm:justify-between py-4">
           <h1 className="text-xl font-semibold text-slate-200">Serviços</h1>{" "}
-          <ServiceTriggerButton
-            data={data}
-            serviceN={serviceN}
-            setServiceN={setServiceN}
+          <ButtonDrawerService
+            isNewUser={isNewUser}
+            setIsNewUser={setIsNewUser}
           />
         </div>
         <div className="flex gap-2 max-sm:gap-4 flex-wrap justify-between max-sm:justify-start">
@@ -97,8 +81,8 @@ const Servicos = (data: any) => {
                 className="inputC "
                 type="search"
                 name="filter"
+                onChange={(e) => setInputText(e.target.value)}
                 value={inputText}
-                onChange={changeInputFilter}
                 placeholder="Pesquisar"
               />
             </div>
@@ -115,13 +99,7 @@ const Servicos = (data: any) => {
             Exportar <CgExport />
           </Button>
         </div>
-        <>
-          <AlertDialogTrigger
-            open={openAlert}
-            setOpen={setOpenAlert}
-            handleConfirm
-          />
-        </>
+
         <div className="py-10 ">
           {isLoading ? (
             <div className="flex w-full min-h-96 justify-center items-center">
@@ -131,9 +109,9 @@ const Servicos = (data: any) => {
             </div>
           ) : (
             <TableService
+              isNewUser={isNewUser}
+              setIsNewUser={setIsNewUser}
               services={services.data}
-              serviceN={serviceN}
-              setServiceN={setServiceN}
             />
           )}
           <Pagination

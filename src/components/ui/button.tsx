@@ -27,8 +27,9 @@ interface BadgeProps
 export function Button({ className, variant, ...props }: any) {
   return (
     <>
-      {props.type === "submit" ? (
+      {props.type === "submit" || props.disabled ? (
         <button
+          disabled={props.disabled}
           type="submit"
           className={twMerge(button({ variant }), className)}
           {...props}

@@ -74,16 +74,12 @@ const DashboardWrapper = () => {
             {currentStep === 0 && !profile ? (
               <FormProfile
                 data={user}
-                currentStep={currentStep}
-                setCurrentStep={setCurrentStep}
                 setCurrentProfile={setCurrentProfile}
                 currentProfile={currentProfile}
               />
             ) : (
               <FormCompany
                 data={user}
-                currentStep={currentStep}
-                setCurrentStep={setCurrentStep}
                 setCurrentCompany={setCurrentCompany}
                 currentCompany={currentCompany}
               />

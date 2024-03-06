@@ -59,6 +59,7 @@ model Client {
   state        String? // Estado do cliente
   company      Company        @relation(fields: [companyId], references: [id]) // Relacionamento com a empresa
   companyId    String
+  createdAt    DateTime       @default(now()) @map(name: "created_at") // Data de criação do cliente
   OrderService OrderService[]
 
   @@map(name: "clients")
@@ -81,8 +82,8 @@ model OrderService {
 }
 
 model ItemsOs {
-  id             String         @id @default(cuid())
-  orderService   OrderService   @relation(fields: [orderServiceId], references: [id]) // Relacionamento com o pedido
+  id             String       @id @default(cuid())
+  orderService   OrderService @relation(fields: [orderServiceId], references: [id]) // Relacionamento com o pedido
   orderServiceId String // ID do pedido
   item           String // Item do pedido
   brand          String // Marca do item
@@ -93,17 +94,7 @@ model ItemsOs {
   description    String // Descrição do item
   acessories     String? // Acessórios
   usageBrand     String? // Marca de uso
-  createdAt      DateTime       @default(now()) @map(name: "created_at")
-  StatusItemOs   StatusItemOs[]
-}
-
-model StatusItemOs {
-  id        String   @id @default(cuid())
-  status    String
-  itemOs    ItemsOs  @relation(fields: [itemId], references: [id])
-  itemId    String
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  createdAt      DateTime     @default(now()) @map(name: "created_at")
 }
 
 model User {

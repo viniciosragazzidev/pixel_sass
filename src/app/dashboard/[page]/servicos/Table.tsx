@@ -9,24 +9,17 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ServiceType } from "@/lib/types";
-import { IoIosMore, IoMdMore } from "react-icons/io";
-import ServiceTriggerButton from "./components/ServiceTrigger";
-interface Equipment {
-  id: number;
-  equipamento: string;
-  marca: string;
-  modelo: string;
-}
+
 type TableServiceType = {
   services: ServiceType[];
-  serviceN: any;
-  setServiceN: any;
+  setIsNewUser: React.Dispatch<React.SetStateAction<boolean>>;
+  isNewUser: boolean;
 };
 
 const TableService = ({
   services,
-  serviceN,
-  setServiceN,
+  setIsNewUser,
+  isNewUser,
 }: TableServiceType) => {
   //console.log(services);
 
@@ -95,13 +88,7 @@ const TableService = ({
                       </span>
                     </div>
                   </TableCell>
-                  <TableCell>
-                    <ServiceTriggerButton
-                      serviceN={serviceN}
-                      service={service}
-                      setServiceN={setServiceN}
-                    />
-                  </TableCell>
+                  <TableCell>Button</TableCell>
                 </TableRow>
               ))}
             </TableBody>

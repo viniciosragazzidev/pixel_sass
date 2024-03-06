@@ -66,25 +66,18 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 * {
   @apply antialiased;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  color: #fff !important;
+  transition: background-color 0s 600000s, color 0s 600000s !important;
 }
 
 .title {
@@ -95,18 +88,24 @@ html {
   @apply text-sm text-slate-400;
 }
 
-.labelC {
-  @apply text-sm text-slate-300;
+label {
+  @apply text-slate-300 font-semibold text-sm;
 }
 .inputIcon {
   @apply text-teal-300;
 }
+.field {
+  flex: 1;
+}
 .inputC {
-  @apply w-full h-full pl-2  text-sm text-slate-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-40 border-none outline-none  bg-transparent;
+  @apply w-full h-full pl-2 flex-1 text-sm text-slate-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-40 border-none outline-none  bg-transparent;
 }
 
 .inputWrapper {
-  @apply w-full min-h-8 flex   items-center  relative max-w-[280px] rounded-lg border border-slate-800 bg-slate-900 px-3  disabled:bg-red-700;
+  @apply w-full flex items-center gap-1 bg-slate-900 p-2 rounded-lg border border-slate-800 border-opacity-70;
+}
+.inputWrapper.p {
+  max-width: 180px !important;
 }
 .inputWrapper.g {
   max-width: 400px !important;

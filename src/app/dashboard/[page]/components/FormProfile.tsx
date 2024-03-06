@@ -45,14 +45,10 @@ type ProfileFormData = z.infer<typeof ProfileSchema>;
 
 const FormProfile = ({
   data,
-  currentStep,
-  setCurrentStep,
   setCurrentProfile,
   currentProfile,
 }: {
   data: UserList;
-  currentStep: number;
-  setCurrentStep: any;
   setCurrentProfile: any;
   currentProfile: any;
 }) => {

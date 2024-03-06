@@ -14,13 +14,12 @@ export interface ItemType {
   item: string;
   brand: string;
   model: string;
-  nSerie: string;
+  serieNumber: string;
   status: string;
   tecnico: string;
   description: string;
   acessories?: string | undefined;
   useBrand?: boolean | undefined;
-  useBrandValue?: string | undefined;
 }
 
 export interface ClientType {
@@ -29,6 +28,7 @@ export interface ClientType {
   document: string;
   contact: string;
   address: string;
+  city: string;
   cep: string;
   email?: string;
 }

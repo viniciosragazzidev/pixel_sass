@@ -1,8 +1,7 @@
 "use server";
 import { revalidateTag } from "next/cache";
 
-const BASE_URL = "http://localhost:3333"; // Constante para o URL base
-const BASE_URL_LOCAL = "http://localhost:3000"; // Constante para o URL base
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 // Função utilitária para construir a URL com parâmetros de consulta
 const buildUrl = (path: string, params: Record<string, any>) => {
@@ -13,15 +12,6 @@ const buildUrl = (path: string, params: Record<string, any>) => {
     .join("&");
 
   return `${BASE_URL}/${path}?${queryString}`;
-};
-const buildUrl2 = (path: string, params: Record<string, any>) => {
-  const queryString = Object.keys(params)
-    .map(
-      (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
-    )
-    .join("&");
-
-  return `${BASE_URL_LOCAL}/${path}?${queryString}`;
 };
 
 // Função para buscar serviços
@@ -65,17 +55,16 @@ export const getServices = async (
 };
 
 // Função para buscar clientes por documento ou ID
-export const getClientsByDocumentOrId = async (document: string) => {
+export const getClient = async (document: string) => {
   // Construindo a URL
 
-  const fullUrl = `${BASE_URL_LOCAL}/api/company_client?document=${document}`;
-  //console.log(fullUrl);
-  // Requisição assíncrona dos clientes
+  const fullUrl = `${BASE_URL}/api/company_client?document=${document}`;
+
   try {
     const response = await fetch(fullUrl, {
       next: {
         revalidate: 300,
-        tags: ["clients"],
+        tags: ["client"],
       },
     });
     return await response.json();
@@ -110,7 +99,7 @@ export const getStatus = async () => {
 
 // Função para criar um novo cliente
 export const createClient = async (data: any) => {
-  const fullUrl = `${BASE_URL_LOCAL}/api/company_client`;
+  const fullUrl = `${BASE_URL}/api/company_client`;
   console.log(fullUrl);
 
   try {
@@ -214,7 +203,7 @@ export const deleteService = async (id: string) => {
 /// users
 
 export const getUser = async (email: string) => {
-  const fullURL = `${BASE_URL_LOCAL}/api/users?email=${email}`;
+  const fullURL = `${BASE_URL}/api/users?email=${email}`;
 
   try {
     const response = await fetch(fullURL, {
@@ -237,7 +226,7 @@ export const getUser = async (email: string) => {
 };
 
 export const createUser = async (data: any) => {
-  const fullURL = `${BASE_URL_LOCAL}/api/users`;
+  const fullURL = `${BASE_URL}/api/users`;
 
   try {
     const response = await fetch(fullURL, {
@@ -256,7 +245,7 @@ export const createUser = async (data: any) => {
 };
 
 export const getRoles = async (id: string) => {
-  const fullURL = `${BASE_URL_LOCAL}/api/role?id=${id}`;
+  const fullURL = `${BASE_URL}/api/role?id=${id}`;
 
   try {
     const response = await fetch(fullURL, {
@@ -281,7 +270,7 @@ export const getRoles = async (id: string) => {
 // Profile
 
 export const getProfile = async ({ email }: { email: string }) => {
-  const fullURL = `${BASE_URL_LOCAL}/api/profile`;
+  const fullURL = `${BASE_URL}/api/profile`;
 
   try {
     const response = await fetch(fullURL, {
@@ -302,7 +291,7 @@ export const getProfile = async ({ email }: { email: string }) => {
 };
 
 export const createProfile = async (data: any) => {
-  const fullURL = `${BASE_URL_LOCAL}/api/profile`;
+  const fullURL = `${BASE_URL}/api/profile`;
   try {
     const response = await fetch(fullURL, {
       method: "POST",
@@ -323,7 +312,7 @@ export const createProfile = async (data: any) => {
 // Company
 
 export const getCompany = async (id: string) => {
-  const fullURL = `${BASE_URL_LOCAL}/api/company?id=${id}`;
+  const fullURL = `${BASE_URL}/api/company?id=${id}`;
 
   try {
     const response = await fetch(fullURL, {
@@ -338,7 +327,7 @@ export const getCompany = async (id: string) => {
 };
 
 export const createCompany = async (data: any) => {
-  const fullURL = `${BASE_URL_LOCAL}/api/company`;
+  const fullURL = `${BASE_URL}/api/company`;
 
   try {
     const response = await fetch(fullURL, {
